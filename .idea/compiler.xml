@@ -18,6 +18,7 @@
         </processorPath>
         <module name="config-server" />
         <module name="product-service" />
+        <module name="inventory-service" />
         <module name="user-service" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="config-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
+      <module name="inventory-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
