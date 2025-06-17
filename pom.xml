@@ -32,6 +32,7 @@
         <module>config-server</module>
         <module>discovery-server</module>
         <module>user-service</module>
+        <module>product-service</module>
         <!-- Add more modules like discovery-server, gateway-service, etc. -->
     </modules>
 
