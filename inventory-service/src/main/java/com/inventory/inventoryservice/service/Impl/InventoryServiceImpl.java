@@ -1,6 +1,8 @@
 package com.inventory.inventoryservice.service.Impl;
 
+import com.inventory.inventoryservice.dto.LowStockEvent;
 import com.inventory.inventoryservice.entity.Inventory;
+import com.inventory.inventoryservice.kafka.InventoryEventProducer;
 import com.inventory.inventoryservice.repository.InventoryRepository;
 import com.inventory.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryEventProducer inventoryEventProducer;
 
     @Override
     public List<Inventory> getAll() {
@@ -21,7 +24,17 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory add(Inventory inventory) {
-        return inventoryRepository.save(inventory);
+        Inventory savedInventory = inventoryRepository.save(inventory);
+        if(savedInventory.getQuantity() <= savedInventory.getReorderLevel()) {
+            inventoryEventProducer.sendLowStockEvent(
+                    LowStockEvent.builder()
+                            .skuCode(savedInventory.getSkuCode())
+                            .quantity(savedInventory.getQuantity())
+                            .reorderLevel(savedInventory.getReorderLevel())
+                            .build()
+            );
+        }
+        return savedInventory;
     }
 
     @Override
