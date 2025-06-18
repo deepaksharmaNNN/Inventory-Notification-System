@@ -34,6 +34,7 @@
         <module>user-service</module>
         <module>product-service</module>
         <module>inventory-service</module>
+        <module>notification-service</module>
         <!-- Add more modules like discovery-server, gateway-service, etc. -->
     </modules>
 
